@@ -1,6 +1,6 @@
 import {MongoClient} from "mongodb";
 
-const uri = ""
+const uri = "mongodb+srv://leandromfrota:b4TXVJBnqcAjbzMF@employee.alwyy.mongodb.net/?retryWrites=true&w=majority&appName=employee"
 let client;
 
 const connectDb = async () => {
@@ -15,4 +15,12 @@ const connectDb = async () => {
   }
 };
 
-export  {connectDb}
+const getDB = () => {
+    if (!client) {
+      throw new Error('You must connect first!');
+    }
+    return client.db('avaliacaoDessempenhoDB');
+  };
+  
+  export { connectDb, getDB };
+
