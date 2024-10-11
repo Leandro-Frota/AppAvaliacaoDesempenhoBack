@@ -1,8 +1,10 @@
 import { getDB } from "../config/db.js";
 
 const EmployeeController = {
-    getEmployees: (req,res)=>{
-        res.send("Empregados cadastrados")
+    getEmployees: async (req,res)=>{
+        const db = await getDB();
+        const employees =  await db.collection('employee').find().toArray()
+        res.send(employees);
     },
     registerEmployee: async (req,res)=>{
         const {name, management, office, registration} = req.body;
