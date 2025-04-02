@@ -3,25 +3,25 @@ import { ObjectId } from "mongodb"
 const EmployeeRepository = {
     getEmployeeById: async (db,id)=>{
         const idAsObjectId = ObjectId.createFromHexString(id) 
-        return await db.collection('employee').findOne({_id:idAsObjectId})
+        return await db.collection('employeeRegisters').findOne({_id:idAsObjectId})
     },
     getEmployees: async (db)=>{
-       return await db.collection('employee').find().toArray()
+       return await db.collection('employeeRegisters').find().toArray()
     },
     createEmployee: async (db,employee)=>{
 
-        await db.collection('employee').insertOne(employee);
+        await db.collection('employeeRegisters').insertOne(employee);
     },
     updateEmployee: async (db,id,employee)=>{
         const idAsObjectId = ObjectId.createFromHexString(id)
 
-        await db.collection('employee').updateOne({ _id: idAsObjectId }, { $set: employee });
+        await db.collection('employeeRegisters').updateOne({ _id: idAsObjectId }, { $set: employee });
 
     },
     deleteEmployeeById: async (db,id)=>{
         const idAsObjectId = ObjectId.createFromHexString(id);
 
-        await db.collection('employee').deleteOne({_id:idAsObjectId})
+        await db.collection('employeeRegisters').deleteOne({_id:idAsObjectId})
 
 
     }

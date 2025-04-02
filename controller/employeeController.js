@@ -24,6 +24,7 @@ const EmployeeController = {
         const {name, management, office, registration} = req.body;
 
         const db = await getDB();
+        
         await EmployeeRepository.createEmployee(db,{name,management,office,registration})  
 
         res.status(201).send('Employee registered successfully');

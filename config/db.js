@@ -1,6 +1,7 @@
 import {MongoClient} from "mongodb";
 
-const uri = "mongodb+srv://leandromfrota:b4TXVJBnqcAjbzMF@employee.alwyy.mongodb.net/?retryWrites=true&w=majority&appName=employee"
+// const uri = "mongodb+srv://leandromfrota:b4TXVJBnqcAjbzMF@employee.alwyy.mongodb.net/?retryWrites=true&w=majority&appName=employee"
+const uri ="mongodb+srv://leandromfrota:OMq7RGp79rEVlGTo@avaliacaodesempenhodb.luoe1um.mongodb.net/?retryWrites=true&w=majority&appName=avaliacaoDesempenhoDB"
 let client;
 
 const connectDb = async () => {
@@ -19,7 +20,7 @@ const getDB = () => {
     if (!client) {
       throw new Error('You must connect first!');
     }
-    return client.db('avaliacaoDessempenhoDB');
+    return client.db('avaliacaoDesempenhoDB');
   };
   
   export { connectDb, getDB };
