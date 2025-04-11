@@ -23,11 +23,14 @@ const EmployeeController = {
     registerEmployee: async (req,res)=>{
         const {name, management, office, registration} = req.body;
 
-        const db = await getDB();
-        
-        await EmployeeRepository.createEmployee(db,{name,management,office,registration})  
-
-        res.status(201).send('Employee registered successfully');
+        try{
+            const db = await getDB();        
+            const newEmployee =  await EmployeeRepository.createEmployee(db,{name,management,office,registration})     
+            res.status(201).json({message:"Employee registered successfully",employee:newEmployee});
+        }catch(err){
+            console.error("Erro ao registrar funcionário:", err);
+            res.status(500).json({error:"Erro ao registrar funcionário"});
+        } 
 
 
     },

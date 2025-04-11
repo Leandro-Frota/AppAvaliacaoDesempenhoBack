@@ -11,6 +11,7 @@ const EmployeeRepository = {
     createEmployee: async (db,employee)=>{
 
         await db.collection('employeeRegisters').insertOne(employee);
+        return {...employee, _id: employee._id };
     },
     updateEmployee: async (db,id,employee)=>{
         const idAsObjectId = ObjectId.createFromHexString(id)

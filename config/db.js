@@ -20,7 +20,7 @@ const getDB = () => {
     if (!client) {
       throw new Error('You must connect first!');
     }
-    return client.db('avaliacaoDesempenhoDB');
+    return client.db('avaliacaoDesempenhoDB'); 
   };
   
   export { connectDb, getDB };
