@@ -26,7 +26,7 @@ const EmployeeController = {
         try{
             const db = await getDB();        
             const newEmployee =  await EmployeeRepository.createEmployee(db,{name,management,office,registration})     
-            res.status(201).json({message:"Employee registered successfully",employee:newEmployee});
+            res.status(201).json({message:"Employee registered successfully",employee: newEmployee});
         }catch(err){
             console.error("Erro ao registrar funcionário:", err);
             res.status(500).json({error:"Erro ao registrar funcionário"});
@@ -36,23 +36,26 @@ const EmployeeController = {
     },
     updateEmployee: async (req,res)=>{
         const {id} = req.params;
-        const {name, management, office, registration} = req.body;
+        const updatedData = req.body;
 
-        if (!name || !management || !office || !registration) {
-            return res.status(400).send('Invalid data');
-        }
-
+      
         const db = await getDB();
         const employee = await EmployeeRepository.getEmployeeById(db,id);
 
         if(!employee){
-            return res.status(400).send('Invalid data');
+            return res.status(400).send('Employe not found');
         }
 
-        await EmployeeRepository.updateEmployee(db,id,{
-            name, management, office, registration
-        })
-        res.send('Employee updated successfully');
+        try{
+            await EmployeeRepository.updateEmployee(db,id,updatedData);
+            res.status(200).json({message:"Employee updated successfully", employee:{...employee, ...updatedData}});
+           
+        }catch(err){
+            console.error("Erro status atualization:", err);
+            res.status(500).json({error:"Error updating employee"});
+        }
+
+    
 
     },
     deleteEmployeeId:async (req,res)=>{
