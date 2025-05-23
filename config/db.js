@@ -1,27 +1,27 @@
-import {MongoClient} from "mongodb";
+  import {MongoClient} from "mongodb";
 
-// const uri = "mongodb+srv://leandromfrota:b4TXVJBnqcAjbzMF@employee.alwyy.mongodb.net/?retryWrites=true&w=majority&appName=employee"
-const uri ="mongodb+srv://leandromfrota:OMq7RGp79rEVlGTo@avaliacaodesempenhodb.luoe1um.mongodb.net/?retryWrites=true&w=majority&appName=avaliacaoDesempenhoDB"
-let client;
+  const uri = process.env.MONGODB_URI;
+  let client;
 
-const connectDb = async () => {
-  try {
-    client = new MongoClient(uri);
+  const connectDb = async () => {
+    try {
+      console.log("MongoDB connection string:", uri);
 
-    await client.connect();
-    console.log('MongoDB connected successfully');
-  } catch (err) {
-    console.error('Error connecting to MongoDB:', err.message);
-    process.exit(1);
-  }
-};
-
-const getDB = () => {
-    if (!client) {
-      throw new Error('You must connect first!');
+      client = new MongoClient(uri);
+      await client.connect();
+      console.log('MongoDB connected successfully');
+    } catch (err) {
+      console.error('Error connecting to MongoDB:', err.message);
+      process.exit(1);
     }
-    return client.db('avaliacaoDesempenhoDB'); 
   };
-  
-  export { connectDb, getDB };
+
+  const getDB = () => {
+      if (!client) {
+        throw new Error('You must connect first!');
+      }
+      return client.db('avaliacaoDesempenhoDB'); 
+    };
+    
+    export { connectDb, getDB };
 

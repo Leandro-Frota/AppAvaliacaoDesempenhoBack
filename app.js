@@ -1,3 +1,5 @@
+import dotenv from "dotenv"
+dotenv.config()
 import express from "express"
 import cors from "cors"
 import employeeRoutes from "./routes/employeeRoutes.js";
@@ -7,13 +9,14 @@ import rateLimitMiddleware from "./middleware/rateLimiteMiddleware.js";
 
 const app = express()
 
+
 app.use(express.json());
 app.use(cors());
 
 // app.use(logMiddleware);
 // app.use(rateLimitMiddleware)
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 
 app.use('/employees',employeeRoutes)
 

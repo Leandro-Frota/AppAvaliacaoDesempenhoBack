@@ -5,8 +5,15 @@ import EmployeeRepository  from "../reposytories/employeeRepository.js";
 const EmployeeController = {
     getEmployees: async (req,res)=>{
         const db = await getDB();
-        const employees =  await EmployeeRepository.getEmployees(db)
-        res.send(employees);
+
+        try{
+            const employees =  await EmployeeRepository.getEmployees(db)
+            res.status(200).send(employees)
+
+        }catch(err){
+            console.error("Error fetching employees:", err);
+            res.status(500).json({error:"Error fetching employees"});
+        }  
     },
     getEmployeeId : async (req,res)=>{
         const {id} = req.params
@@ -35,27 +42,28 @@ const EmployeeController = {
 
     },
     updateEmployee: async (req,res)=>{
-        const {id} = req.params;
-        const updatedData = req.body;
-
+        const {id,step} = req.params;
+        const stepData = req.body;    
       
-        const db = await getDB();
-        const employee = await EmployeeRepository.getEmployeeById(db,id);
-
-        if(!employee){
-            return res.status(400).send('Employe not found');
-        }
 
         try{
-            await EmployeeRepository.updateEmployee(db,id,updatedData);
-            res.status(200).json({message:"Employee updated successfully", employee:{...employee, ...updatedData}});
+            const db = await getDB();
+            const employee = await EmployeeRepository.getEmployeeById(db,id);
+    
+            if(!employee){
+                return res.status(400).send('Employe not found');
+            }
+
+            const updateField = {[`steps.${step}`]: stepData};
+
+
+            await EmployeeRepository.updateEmployee(db,id,updateField);
+            res.status(200).json({message:"Employee updated successfully", employee:{...employee, ...updateField}});
            
         }catch(err){
             console.error("Erro status atualization:", err);
             res.status(500).json({error:"Error updating employee"});
-        }
-
-    
+        }   
 
     },
     deleteEmployeeId:async (req,res)=>{
