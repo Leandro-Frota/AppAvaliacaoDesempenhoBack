@@ -13,17 +13,12 @@ const EmployeeRepository = {
         return { ...employee, _id: result.insertedId };
     },
     updateEmployee: async (db,id,dataToUpdate)=>{
-        const idAsObjectId = ObjectId.createFromHexString(id)     
-
+        const idAsObjectId = ObjectId.createFromHexString(id)  
         await db.collection('employeeRegisters').updateOne({ _id: idAsObjectId }, { $set: dataToUpdate });
-
     },
     deleteEmployeeById: async (db,id)=>{
         const idAsObjectId = ObjectId.createFromHexString(id);
-
         await db.collection('employeeRegisters').deleteOne({_id:idAsObjectId})
-
-
     }
 }
 

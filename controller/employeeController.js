@@ -37,26 +37,38 @@ const EmployeeController = {
         }catch(err){
             console.error("Erro ao registrar funcionário:", err);
             res.status(500).json({error:"Erro ao registrar funcionário"});
-        } 
-
+        }
 
     },
-    updateEmployee: async (req,res)=>{
-        const {id,step} = req.params;
-        const stepData = req.body;    
-      
+    updateDataRegisterEmployeeById: async (req,res)=>{
+        const {name, management, office, registration} = req.body;
+        const {id} = req.params;
 
         try{
             const db = await getDB();
             const employee = await EmployeeRepository.getEmployeeById(db,id);
-    
             if(!employee){
                 return res.status(400).send('Employe not found');
             }
+            const updateDataEmployee = {name, management, office, registration};
+            await EmployeeRepository.updateEmployee(db,id,updateDataEmployee);
+            res.status(200).json({message:"Employee updated successfully", employee:{...employee, ...updateDataEmployee}});
 
+        }catch(err){
+            console.error("Error updating employee:", err);
+            res.status(500).json({error:"Error updating data employee"});
+        }
+    },
+    updateFormStepByStepEmployee: async (req,res)=>{
+        const {id,step} = req.params;
+        const stepData = req.body;
+        try{
+            const db = await getDB();
+            const employee = await EmployeeRepository.getEmployeeById(db,id);    
+            if(!employee){
+                return res.status(400).send('Employe not found');
+            }
             const updateField = {[`steps.${step}`]: stepData};
-
-
             await EmployeeRepository.updateEmployee(db,id,updateField);
             res.status(200).json({message:"Employee updated successfully", employee:{...employee, ...updateField}});
            
@@ -66,19 +78,11 @@ const EmployeeController = {
         }   
 
     },
-    deleteEmployeeId:async (req,res)=>{
+    deleteEmployeeId: async (req,res)=>{
         const {id} = req.params;
         const db = await getDB();
-
-        await EmployeeRepository.deleteEmployeeById(db,id)
-        
-       
-
-       res.send("Employee deleted succesfully")
-
-
+        await EmployeeRepository.deleteEmployeeById(db,id)      
+        res.send("Employee deleted succesfully")
     }
-
 }
-
 export default EmployeeController;
