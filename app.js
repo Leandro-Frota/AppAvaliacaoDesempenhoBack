@@ -3,6 +3,7 @@ dotenv.config()
 import express from "express"
 import cors from "cors"
 import employeeRoutes from "./routes/employeeRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import { connectDb } from './config/db.js';
 import logMiddleware from "./middleware/logMiddleware.js";
 import rateLimitMiddleware from "./middleware/rateLimiteMiddleware.js";
@@ -19,6 +20,7 @@ app.use(cors());
 const PORT = process.env.PORT || 3001;
 
 app.use('/employees',employeeRoutes)
+app.use('/auth',authRoutes)
 
 app.listen(PORT, async ()=>{
     console.log(`Server is running on port ${PORT}` )
